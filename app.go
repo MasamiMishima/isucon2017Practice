@@ -438,7 +438,7 @@ func getAccountName(c web.C, w http.ResponseWriter, r *http.Request) {
 
 	results := []Post{}
 
-	rerr := db.Select(&results, "SELECT `id`, `user_id`, `body`, `mime`, `created_at` FROM `posts` WHERE `user_id` = ? AND `del_flg` = 0 ORDER BY `created_at` DESC LIMIT 20", user.ID)
+	rerr := db.Select(&results, "SELECT `id`, `user_id`, `body`, `mime`, `created_at` FROM `posts` WHERE `user_id` = ? ORDER BY `created_at` DESC", user.ID)
 	if rerr != nil {
 		fmt.Println(rerr)
 		return
@@ -526,7 +526,7 @@ func getPosts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	results := []Post{}
-	rerr := db.Select(&results, "SELECT `id`, `user_id`, `body`, `mime`, `created_at` FROM `posts` WHERE `del_flg` = 0 AND  `created_at` <= ? ORDER BY `created_at` DESC LIMIt 20", t.Format(ISO8601_FORMAT))
+	rerr := db.Select(&results, "SELECT `id`, `user_id`, `body`, `mime`, `created_at` FROM `posts` WHERE `del_flg` = 0 AND `created_at` <= ? ORDER BY `created_at` DESC LIMIT 20", t.Format(ISO8601_FORMAT))
 	if rerr != nil {
 		fmt.Println(rerr)
 		return
